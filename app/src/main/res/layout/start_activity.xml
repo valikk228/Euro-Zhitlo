@@ -36,9 +36,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
-        android:textSize="18dp"
+        android:textSize="17dp"
         android:fontFamily="@font/sfu_light"
-        android:text="Знайди затишний дім у Європі"
+        android:text="Знайди затишне житло у Європі"
         app:layout_constraintEnd_toEndOf="@+id/textView"
         app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
