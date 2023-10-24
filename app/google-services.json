@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1043114592680",
+    "project_id": "eurozhitlo-9af10",
+    "storage_bucket": "eurozhitlo-9af10.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1043114592680:android:2fee7b0c3b756eb4a1759d",
+        "android_client_info": {
+          "package_name": "com.example.euro_zhitlo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1043114592680-0i40ughhjgriht1g58sro3tlndfckiqu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.euro_zhitlo",
+            "certificate_hash": "4be5b29d0eb189dafe17bfa3a38ca719a1977b96"
+          }
+        },
+        {
+          "client_id": "1043114592680-9jqgkqct5a701sqnma768jusr41dkuq7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOUtwKFOlSQMoMGWPwFsl07kzHDhpx4EM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1043114592680-9jqgkqct5a701sqnma768jusr41dkuq7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
