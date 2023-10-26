@@ -4,22 +4,24 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.AuthResult
 import com.google.android.gms.tasks.Task
-import java.security.MessageDigest
-import java.security.SecureRandom
 
 class RegisterActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.register_activity)
 
-        val buttonPhone: Button = findViewById(R.id.buttonPhone)
         val buttonGoogle: Button = findViewById(R.id.buttonGoogle)
         val buttonRegister: Button = findViewById(R.id.buttonRegister)
+        val textLogin: TextView = findViewById(R.id.textView9)
 
         val email: EditText = findViewById(R.id.editTextTextEmailAddress)
         val password: EditText = findViewById(R.id.editTextTextPassword)
@@ -27,6 +29,12 @@ class RegisterActivity: AppCompatActivity() {
 
         val mAuth = FirebaseAuth.getInstance()
 
+
+        textLogin.setOnClickListener {
+            val intent = Intent(this,LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
         buttonRegister.setOnClickListener {
 
             val emailText = email.text.toString()
@@ -35,66 +43,56 @@ class RegisterActivity: AppCompatActivity() {
 
             if (emailText.isNotEmpty() && passwordText.isNotEmpty() && repeatPasswordText.isNotEmpty()) {
                 if (passwordText == repeatPasswordText) {
-                    // Захешувати пароль перед реєстрацією
-                    val salt = generateSalt()
-                    val hashedPassword = hashPassword(passwordText, salt)
-
-                    // Реєстрація користувача за допомогою захешованого паролю
-                    mAuth.createUserWithEmailAndPassword(emailText, hashedPassword)
+                    mAuth.createUserWithEmailAndPassword(emailText, passwordText)
                         .addOnCompleteListener { task: Task<AuthResult> ->
                             if (task.isSuccessful) {
-                                // Реєстрація пройшла успішно
                                 val user: FirebaseUser? = mAuth.currentUser
                                 if (user != null) {
-                                    val intent = Intent(this, MainActivity::class.java)
+                                    val intent = Intent(this, RoleActivity::class.java)
                                     startActivity(intent)
                                     finish()
                                 }
                             } else {
-                                // Реєстрація не вдалася, обробте помилку тут
                                 val exception = task.exception
                                 if (exception != null) {
-                                    // Отримано об'єкт помилки (exception)
-                                    // Обробте його, щоб дізнатися, в чому полягає проблема.
+                                    // Обробити помилку
                                 }
                             }
                         }
                 } else {
-                    // Виведіть повідомлення про помилку, якщо паролі не співпадають.
+                    // Вивести повідомлення про помилку, якщо паролі не співпадають.
                 }
             } else {
-                // Виведіть повідомлення про помилку, якщо якась з полів є порожньою.
+                // Вивести повідомлення про помилку, якщо якась з полів є порожньою.
             }
         }
 
-        buttonPhone.setOnClickListener()
-        {
-            // Опрацювання натискання на кнопку "Телефон"
-        }
+        buttonGoogle.setOnClickListener {
+            val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
 
-        buttonGoogle.setOnClickListener()
-        {
-            // Опрацювання натискання на кнопку "Google"
+            val googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions)
+            val signInIntent = googleSignInClient.signInIntent
+
+            startActivityForResult(signInIntent, 123)
         }
     }
 
-    private fun hashPassword(password: String, salt: ByteArray): String {
-        val md = MessageDigest.getInstance("SHA-256")
-        md.update(salt)
-        val hashedPassword = md.digest(password.toByteArray())
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
-        val hexChars = CharArray(hashedPassword.size * 2)
-        for (i in hashedPassword.indices) {
-            val v = hashedPassword[i].toInt() and 0xFF
-            hexChars[i * 2] = "0123456789ABCDEF"[v ushr 4]
-            hexChars[i * 2 + 1] = "0123456789ABCDEF"[v and 0x0F]
+        if (requestCode == 123) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                val account = task.getResult(ApiException::class.java)
+                val intent = Intent(this, RoleActivity::class.java)
+                startActivity(intent)
+                finish()
+            } catch (e: ApiException) {
+                // Обробити помилку, якщо її виникло при реєстрації через Google
+            }
         }
-        return String(hexChars)
-    }
-
-    private fun generateSalt(): ByteArray {
-        val salt = ByteArray(16)
-        SecureRandom().nextBytes(salt)
-        return salt
     }
 }

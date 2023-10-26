@@ -40,5 +40,11 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".RoleActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
     </application>
 </manifest>
