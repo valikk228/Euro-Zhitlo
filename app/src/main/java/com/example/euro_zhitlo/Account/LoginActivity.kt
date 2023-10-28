@@ -1,4 +1,4 @@
-package com.example.euro_zhitlo
+package com.example.euro_zhitlo.Account
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.euro_zhitlo.Landlord.LandlordMainActivity
+import com.example.euro_zhitlo.R
+import com.example.euro_zhitlo.Refugee.RefugeeMainActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -14,10 +17,17 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
-class LoginActivity: AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
     private val mAuth = FirebaseAuth.getInstance()
     private lateinit var googleSignInClient: GoogleSignInClient
+    private lateinit var userRef: DatabaseReference
 
     companion object {
         private const val RC_SIGN_IN = 123
@@ -30,6 +40,7 @@ class LoginActivity: AppCompatActivity() {
         val buttonLog: Button = findViewById(R.id.button)
         val buttonGoogle: Button = findViewById(R.id.button2)
         val textCreate: TextView = findViewById(R.id.textView9)
+        userRef = FirebaseDatabase.getInstance().getReference("typeUser")
 
         textCreate.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
@@ -53,7 +64,7 @@ class LoginActivity: AppCompatActivity() {
                             val user: FirebaseUser? = mAuth.currentUser
                             if (user != null) {
                                 // Ви можете перейти на іншу активність, наприклад, MainActivity
-                                val intent = Intent(this, MainActivity::class.java)
+                                val intent = Intent(this, RefugeeMainActivity::class.java)
                                 startActivity(intent)
                                 finish()  // Закрити поточну активність
                             }
@@ -84,7 +95,6 @@ class LoginActivity: AppCompatActivity() {
         googleSignInClient = GoogleSignIn.getClient(this, gso)
     }
 
-
     private fun signInWithGoogle() {
         val signInIntent = googleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
@@ -96,17 +106,65 @@ class LoginActivity: AppCompatActivity() {
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
-                // Успішно отримали дані облікового запису Google
                 val account = task.getResult(ApiException::class.java)
 
-                // Тепер ви можете перейти на іншу активність, наприклад, MainActivity
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-                finish()  // Закрити поточну активність
+                // Отримуємо доступ до Firebase Auth
+                val firebaseAuth = FirebaseAuth.getInstance()
+
+                // Входимо в Firebase через Google
+                val credentials = GoogleAuthProvider.getCredential(account?.idToken, null)
+                firebaseAuth.signInWithCredential(credentials)
+                    .addOnCompleteListener { googleSignInTask ->
+                        if (googleSignInTask.isSuccessful) {
+                            // Вхід відбувся успішно, перевірка ролі та перехід
+                            checkUserRole()
+                        } else {
+                            // Обробити помилку входу в Firebase через Google
+                        }
+                    }
             } catch (e: ApiException) {
-                // Опрацювати помилку, якщо її виникло при реєстрації через Google
+                // Обробити помилку, якщо її виникло при реєстрації через Google
             }
         }
     }
+
+    private fun checkUserRole() {
+        val user = mAuth.currentUser
+
+        if (user != null) {
+            userRef.child(user.uid).addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        // Роль користувача збережена, перехід
+                        val role = snapshot.value.toString()
+                        when (role) {
+                            "refugee" -> {
+                                val intent = Intent(this@LoginActivity, RefugeeMainActivity::class.java)
+                                startActivity(intent)
+                            }
+                            "landlord" -> {
+                                val intent = Intent(this@LoginActivity, LandlordMainActivity::class.java)
+                                startActivity(intent)
+                            }
+                            else -> {
+                                // Якщо роль невідома, перехід на сторінку для вибору ролі
+                                val intent = Intent(this@LoginActivity, RoleActivity::class.java)
+                                startActivity(intent)
+                            }
+                        }
+                    } else {
+                        // Роль користувача не збережена, перехід на сторінку для вибору ролі
+                        val intent = Intent(this@LoginActivity, RoleActivity::class.java)
+                        startActivity(intent)
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    // Обробляємо помилку доступу до бази даних
+                }
+            })
+        }
+    }
 }
+
 

@@ -6,32 +6,68 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.EuroZhitlo"
         tools:targetApi="31">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".Refugee.RefugeeMainActivity"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".RegisterActivity"
+            android:name=".Refugee.RefugeeSearchActivity"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".LoginActivity"
+            android:name=".Refugee.RefugeeMessageActivity"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".SplashActivity"
+            android:name=".Refugee.RefugeeProfileActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
+            android:name=".Landlord.LandlordMainActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
+            android:name=".Landlord.LandlordMessageActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
+            android:name=".Landlord.LandlordProfileActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
+            android:name=".Account.RegisterActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
+            android:name=".Account.LoginActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
+            android:name=".Account.SplashActivity"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -41,7 +77,7 @@
         </activity>
 
         <activity
-            android:name=".RoleActivity"
+            android:name=".Account.RoleActivity"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>

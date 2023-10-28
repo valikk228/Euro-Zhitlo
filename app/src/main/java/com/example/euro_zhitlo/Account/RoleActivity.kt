@@ -1,9 +1,12 @@
-package com.example.euro_zhitlo
+package com.example.euro_zhitlo.Account
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.example.euro_zhitlo.Landlord.LandlordMainActivity
+import com.example.euro_zhitlo.R
+import com.example.euro_zhitlo.Refugee.RefugeeMainActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
@@ -21,9 +24,6 @@ class RoleActivity : AppCompatActivity() {
         userRef = database.getReference("typeUser")
         mAuth = FirebaseAuth.getInstance()
 
-        val choose1: Button = findViewById(R.id.button3)
-        val choose2: Button = findViewById(R.id.button4)
-
         val user = mAuth.currentUser
         val uid = user?.uid
 
@@ -32,10 +32,21 @@ class RoleActivity : AppCompatActivity() {
             userRef.child(uid).addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
-                        // Роль користувача вже збережена, перенаправляємо на MainActivity
-                        val intent = Intent(this@RoleActivity, MainActivity::class.java)
-                        startActivity(intent)
-                        finish()
+                        // Роль користувача вже збережена
+                        val role = snapshot.getValue(String::class.java)
+                        if (role == "refugee") {
+                            val intent = Intent(this@RoleActivity, RefugeeMainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        } else if (role == "landlord") {
+                            val intent = Intent(this@RoleActivity, LandlordMainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                        else
+                        {
+                            setupRoleSelection()
+                        }
                     } else {
                         // Роль користувача ще не збережена, дозволяємо користувачу вибрати роль
                         setupRoleSelection()
@@ -47,7 +58,11 @@ class RoleActivity : AppCompatActivity() {
                 }
             })
         }
+        else{
+
+        }
     }
+
 
     private fun setupRoleSelection() {
         val choose1: Button = findViewById(R.id.button3)
@@ -63,7 +78,7 @@ class RoleActivity : AppCompatActivity() {
                 userRef.child(uid).setValue("refugee")
             }
 
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, RefugeeMainActivity::class.java)
             startActivity(intent)
             finish()
         }
@@ -78,7 +93,7 @@ class RoleActivity : AppCompatActivity() {
                 userRef.child(uid).setValue("landlord")
             }
 
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, LandlordMainActivity::class.java)
             startActivity(intent)
             finish()
         }

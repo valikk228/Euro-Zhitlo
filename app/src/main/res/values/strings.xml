@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Euro-Zhitlo</string>
-    <string name="default_web_client_id">1043114592680-9jqgkqct5a701sqnma768jusr41dkuq7.apps.googleusercontent.com</string>
+    <string name="app_name" translatable="false">EuroHouse</string>
+    <string name="default_web_client_id" translatable="false">1043114592680-9jqgkqct5a701sqnma768jusr41dkuq7.apps.googleusercontent.com</string>
 </resources>
 
