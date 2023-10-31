@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
+    android:layout_width="350dp"
+    android:layout_height="100dp"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginTop="15dp"
+    android:background="@drawable/rectangle_white3"
+    android:focusable="false"
+    android:focusableInTouchMode="false"
+    android:orientation="horizontal"
+    android:padding="5dp">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY" />
+
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="@+id/textView_price"
+        app:layout_constraintTop_toBottomOf="@+id/textView_price"
+        app:srcCompat="@drawable/location_icon" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_access"
+        app:layout_constraintEnd_toStartOf="@+id/textView_access"
+        app:layout_constraintTop_toTopOf="@+id/textView_access"
+        app:srcCompat="@drawable/availiable_icon" />
+
+    <TextView
+        android:id="@+id/textView_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/sfu_bold"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="12dp"
+        app:layout_constraintStart_toEndOf="@+id/cardView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:fontFamily="@font/sfu_regular"
+        android:text=""
+        android:textSize="8dp"
+        app:layout_constraintStart_toEndOf="@+id/cardView"
+        app:layout_constraintTop_toBottomOf="@+id/textView_title" />
+
+    <TextView
+        android:id="@+id/textView_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:fontFamily="@font/sfu_bold"
+        android:text=""
+        android:textColor="#7472E0"
+        android:textSize="12dp"
+        app:layout_constraintStart_toEndOf="@+id/cardView"
+        app:layout_constraintTop_toBottomOf="@+id/textView_location" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/sfu_medium"
+        android:text="per month"
+        android:textColor="@color/black"
+        android:textSize="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_price"
+        app:layout_constraintStart_toEndOf="@+id/textView_price"
+        app:layout_constraintTop_toTopOf="@+id/textView_price"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/textView_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:fontFamily="@font/sfu_regular"
+        android:text="1.2 km from Gwarko"
+        android:textColor="@color/black"
+        android:textSize="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+        app:layout_constraintStart_toEndOf="@+id/imageView3"
+        app:layout_constraintTop_toTopOf="@+id/imageView3"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/textView_access"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="@font/sfu_regular"
+        android:text="Availiable"
+        android:textColor="@color/black"
+        android:textSize="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_distance"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView_distance" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

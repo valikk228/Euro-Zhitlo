@@ -1,5 +1,6 @@
 package com.example.euro_zhitlo.Refugee
 
+import Navigation
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,6 +11,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 
 class RefugeeProfileActivity : AppCompatActivity() {
+
+    private val navigation = Navigation(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.refugee_profile_activity)
@@ -24,34 +28,7 @@ class RefugeeProfileActivity : AppCompatActivity() {
             finish()
         }
 
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView1)
-        bottomNavigationView.menu.getItem(3).isChecked = true
-        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.home -> {
-                    val intent = Intent(this, RefugeeMainActivity::class.java)
-                    startActivity(intent)
-                    overridePendingTransition(0, 0)
-                    true
-                }
-                R.id.search -> {
-                    val intent = Intent(this, RefugeeSearchActivity::class.java)
-                    startActivity(intent)
-                    overridePendingTransition(0, 0)
-                    true
-                }
-                R.id.message -> {
-                    val intent = Intent(this, RefugeeMessageActivity::class.java)
-                    startActivity(intent)
-                    overridePendingTransition(0, 0)
-                    true
-                }
-                R.id.profile -> {
-                    true
-                }
-                // Додайте обробку інших пунктів меню за потреби
-                else -> false
-            }
-        }
+        val bottomNavigationView:BottomNavigationView = findViewById(R.id.bottomNavigationView1)
+        navigation.showRefugeeNavigation(bottomNavigationView,3)
     }
 }
