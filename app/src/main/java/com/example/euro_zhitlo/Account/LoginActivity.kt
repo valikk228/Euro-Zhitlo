@@ -9,20 +9,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.euro_zhitlo.Landlord.LandlordMainActivity
 import com.example.euro_zhitlo.R
 import com.example.euro_zhitlo.Refugee.RefugeeMainActivity
-import com.google.firebase.auth.FirebaseAuth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 
 class LoginActivity : AppCompatActivity() {
     private val mAuth = FirebaseAuth.getInstance()
@@ -58,15 +52,13 @@ class LoginActivity : AppCompatActivity() {
             // Перевірка, чи введені дані коректні (непорожні)
             if (emailText.isNotEmpty() && passwordText.isNotEmpty()) {
                 mAuth.signInWithEmailAndPassword(emailText, passwordText)
-                    .addOnCompleteListener { task: Task<AuthResult> ->
+                    .addOnCompleteListener { task: Task<*> ->
                         if (task.isSuccessful) {
                             // Вхід в аккаунт пройшов успішно
-                            val user: FirebaseUser? = mAuth.currentUser
+                            val user = mAuth.currentUser
                             if (user != null) {
                                 // Ви можете перейти на іншу активність, наприклад, MainActivity
-                                val intent = Intent(this, RefugeeMainActivity::class.java)
-                                startActivity(intent)
-                                finish()  // Закрити поточну активність
+                                checkUserRole()
                             }
                         } else {
                             // Вивести повідомлення про помилку, якщо вхід не вдався
@@ -130,39 +122,31 @@ class LoginActivity : AppCompatActivity() {
 
     private fun checkUserRole() {
         val user = mAuth.currentUser
-
         if (user != null) {
-            userRef.child(user.uid).addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()) {
-                        // Роль користувача збережена, перехід
-                        val role = snapshot.value.toString()
-                        when (role) {
+                User.getUserByUid(user.uid) { userObj ->
+                    if (userObj != null) {
+                        when (userObj.type) {
                             "refugee" -> {
                                 val intent = Intent(this@LoginActivity, RefugeeMainActivity::class.java)
                                 startActivity(intent)
                             }
+
                             "landlord" -> {
                                 val intent = Intent(this@LoginActivity, LandlordMainActivity::class.java)
                                 startActivity(intent)
                             }
+
                             else -> {
                                 // Якщо роль невідома, перехід на сторінку для вибору ролі
                                 val intent = Intent(this@LoginActivity, RoleActivity::class.java)
                                 startActivity(intent)
                             }
                         }
-                    } else {
-                        // Роль користувача не збережена, перехід на сторінку для вибору ролі
-                        val intent = Intent(this@LoginActivity, RoleActivity::class.java)
-                        startActivity(intent)
                     }
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    // Обробляємо помилку доступу до бази даних
-                }
-            })
+                    else
+                    {
+                    }
+            }
         }
     }
 }

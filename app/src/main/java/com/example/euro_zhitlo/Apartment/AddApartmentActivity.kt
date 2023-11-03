@@ -9,9 +9,9 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.example.euro_zhitlo.R
+import com.google.firebase.auth.FirebaseAuth
 
 class AddApartmentActivity : AppCompatActivity() {
-
     private val REQUEST_IMAGE = 1
     private var myApartment = ApartmentData()
     private lateinit var image:Bitmap
@@ -43,21 +43,38 @@ class AddApartmentActivity : AppCompatActivity() {
             }
         })
 
-        val addApartment:Button = findViewById(R.id.buttonAdd)
-        addApartment.setOnClickListener(){
-            if(Title.text.toString()!=null && Price.text.toString()!=null && Location.text.toString()!=null
-                && Description.text.toString()!=null && Facilities.text.toString()!=null){
+        val addApartment: Button = findViewById(R.id.buttonAdd)
+        addApartment.setOnClickListener() {
+            if (Title.text.toString() != null && Price.text.toString() != null && Location.text.toString() != null
+                && Description.text.toString() != null && Facilities.text.toString() != null
+            ) {
                 title = Title.text.toString()
                 price = Price.text.toString().toInt()
                 location = Location.text.toString()
                 description = Description.text.toString()
                 facilities = Facilities.text.toString().split(",")
 
-                myApartment.uploadData(image,title,price,location,true,description,facilities)
+                // Отримайте uid користувача з Firebase Authentication
+                val currentUser = FirebaseAuth.getInstance().currentUser
+                val uid = currentUser?.uid
+
+                if (uid != null) {
+                    myApartment.uploadData(
+                        uid,
+                        image,
+                        title,
+                        price,
+                        location,
+                        true,
+                        description,
+                        facilities
+                    )
+                } else {
+                    // Обробка ситуації, коли uid користувача не знайдено
+                }
             }
         }
     }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 

@@ -40,4 +40,35 @@
         app:menu="@menu/bottom_landlord_nav"
         />
 
+    <EditText
+        android:id="@+id/editTextText"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rectangle_white_search"
+        android:drawableStart="@drawable/search_icon"
+        android:drawablePadding="10dp"
+        android:ems="15"
+        android:fontFamily="@font/sfu_regular"
+        android:hint="Search user"
+        android:inputType="text"
+        android:paddingStart="10dp"
+        android:textColorHint="@android:color/darker_gray"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView1" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextText" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

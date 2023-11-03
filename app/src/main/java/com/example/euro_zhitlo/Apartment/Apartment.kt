@@ -1,14 +1,17 @@
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.Parcelable
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import kotlinx.android.parcel.Parcelize
 import java.io.File
 import java.io.IOException
 import androidx.annotation.Keep
 
-
 @Keep
+@Parcelize
 data class Apartment(
+    val uid:String,
     val image: String,
     val title: String,
     val price: Int,
@@ -16,8 +19,9 @@ data class Apartment(
     val access: Boolean,
     val description: String,
     val facilities: List<String>
-) {
-    constructor() : this("", "", 0, "", false, "", emptyList())
+) : Parcelable {
+
+    constructor() : this("","", "", 0, "", false, "", emptyList())
 
     fun getBitmapFromFirebaseStorage(callback: (Bitmap?) -> Unit) {
         val storageRef: StorageReference = FirebaseStorage.getInstance().getReferenceFromUrl(image)
@@ -36,4 +40,7 @@ data class Apartment(
             callback(null)
         }
     }
+
 }
+
+

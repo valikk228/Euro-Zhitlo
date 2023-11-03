@@ -12,11 +12,15 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">#817FDA</item>
+        <!-- Disable window content transitions -->
+        <item name="android:windowContentTransitions">false</item>
         <!-- Customize your theme here. -->
     </style>
+
 
     <style name="Widget.BottomNavigationView"
         parent="Widget.Design.BottomNavigationView">
         <item name="fontFamily">@font/sfu_black</item>
+        <item name="android:windowContentTransitions">false</item>
     </style>
 </resources>

@@ -74,8 +74,8 @@ class RoleActivity : AppCompatActivity() {
             val uid = user?.uid
 
             if (uid != null) {
-                // Зберігаємо тип користувача у базі даних за використанням UID як ключа
-                userRef.child(uid).setValue("refugee")
+                val user = User(uid, "","refugee", "")
+                user.saveToDatabase()
             }
 
             val intent = Intent(this, RefugeeMainActivity::class.java)
@@ -89,8 +89,8 @@ class RoleActivity : AppCompatActivity() {
             val uid = user?.uid
 
             if (uid != null) {
-                // Зберігаємо тип користувача у базі даних за використанням UID як ключа
-                userRef.child(uid).setValue("landlord")
+                val user = User(uid, "","landlord", "")
+                user.saveToDatabase()
             }
 
             val intent = Intent(this, LandlordMainActivity::class.java)
