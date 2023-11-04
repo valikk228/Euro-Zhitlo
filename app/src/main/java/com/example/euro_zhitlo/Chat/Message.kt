@@ -13,15 +13,15 @@ import java.util.Date
 @Keep
 @Parcelize
 data class Message(
-    val chat_id: String,
-    val uid_sender: String,
-    val uid_receiver: String,
-    val photo: Boolean,
-    val text: String,
-    val time: Date
+    var uid_sender: String,
+    var uid_receiver: String,
+    val photo: String,
+    var text: String,
+    var time: Date,
+    var messageType: String
 ) : Parcelable {
 
-    constructor() : this("","", "", false, "", Date(0))
+    constructor() : this("", "", "", "", Date(0),"")
 
     // Зберегти об'єкт com.example.euro_zhitlo.Chat.Message в базі даних
     fun saveToDatabase() {
@@ -31,22 +31,58 @@ data class Message(
         messageRef.setValue(this)
     }
 
+
     companion object {
-        // Прочитати об'єкт com.example.euro_zhitlo.Chat.Message з бази даних за ключем (наприклад, messageKey)
-        fun readFromDatabase(messageKey: String, callback: (Message?) -> Unit) {
+        // Прочитати об'єкт Message з бази даних за ключем (наприклад, messageKey)
+        fun readMessagesForUser(userId: String, callback: (List<Message>) -> Unit) {
             val database = FirebaseDatabase.getInstance()
-            val messagesRef: DatabaseReference = database.getReference("messages").child(messageKey)
+            val messagesRef: DatabaseReference = database.getReference("messages")
 
-            messagesRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val message = dataSnapshot.getValue(Message::class.java)
-                    callback(message)
-                }
+            val messages = mutableListOf<Message>()
 
-                override fun onCancelled(databaseError: DatabaseError) {
-                    callback(null)
-                }
-            })
+            messagesRef.orderByChild("uid_sender").equalTo(userId)
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        for (messageSnapshot in dataSnapshot.children) {
+                            val message = messageSnapshot.getValue(Message::class.java)
+                            if (message != null) {
+                                message.messageType = "sender"
+                                messages.add(message)
+                            }
+                        }
+
+                        // Тепер у вас є список відправлених повідомлень
+
+                        messagesRef.orderByChild("uid_receiver").equalTo(userId)
+                            .addListenerForSingleValueEvent(object : ValueEventListener {
+                                override fun onDataChange(dataSnapshot2: DataSnapshot) {
+                                    for (messageSnapshot in dataSnapshot2.children) {
+                                        val message = messageSnapshot.getValue(Message::class.java)
+                                        if (message != null) {
+                                            message.messageType = "receiver"
+                                            // Додавайте отримані повідомлення на початок списку
+                                            messages.add(0, message)
+                                        }
+                                    }
+
+                                    // Сортування повідомлень за датою від старіших до новіших
+                                    val sortedMessages = messages.sortedBy { it.time }
+
+                                    // Тепер у вас є список повідомлень, відсортований за датою
+                                    callback(sortedMessages)
+                                }
+
+                                override fun onCancelled(databaseError: DatabaseError) {
+                                    callback(emptyList()) // Якщо сталася помилка, повертаємо пустий список
+                                }
+                            })
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError) {
+                        callback(emptyList()) // Якщо сталася помилка, повертаємо пустий список
+                    }
+                })
         }
     }
+
 }

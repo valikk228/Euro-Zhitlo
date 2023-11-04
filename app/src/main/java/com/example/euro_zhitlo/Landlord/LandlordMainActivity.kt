@@ -2,6 +2,7 @@ package com.example.euro_zhitlo.Landlord
 
 import Apartment
 import Navigation
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
@@ -34,6 +35,7 @@ class LandlordMainActivity : AppCompatActivity(){
         SetRecyclerView()
     }
 
+    @SuppressLint("SuspiciousIndentation")
     fun SetRecyclerView()
     {
         val read = ApartmentData()

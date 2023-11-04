@@ -34,6 +34,10 @@ class ChatAdapter(private val context: Context, private val chats: List<Chat>) :
         val mAuth = FirebaseAuth.getInstance()
         val user = mAuth.currentUser
 
+        holder.itemView.setOnClickListener {
+            itemClickListener?.onItemClick(chat)
+        }
+
         if (user != null) {
             User.getUserByUid(user.uid) { currentUser ->
                 if (currentUser != null) {
