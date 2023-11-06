@@ -41,7 +41,7 @@
             android:layout_height="40dp"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
-            android:src="@drawable/image_apartment" />
+             />
 
     </androidx.cardview.widget.CardView>
 
@@ -86,7 +86,7 @@
             android:layout_height="40dp"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
-            android:src="@drawable/image_apartment" />
+            />
     </androidx.cardview.widget.CardView>
 
     <EditText
@@ -145,7 +145,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
-        android:text="Ryan Romb"
         android:fontFamily="@font/sfu_medium"
         android:textSize="12dp"
         android:textColor="@color/black"

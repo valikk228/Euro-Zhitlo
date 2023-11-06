@@ -302,7 +302,7 @@
         app:layout_constraintTop_toTopOf="@+id/imageView_facilietie2" />
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/button_book"
         android:layout_width="330dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"

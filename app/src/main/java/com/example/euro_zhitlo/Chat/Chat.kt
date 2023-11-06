@@ -36,6 +36,42 @@ data class Chat(
         // Зберегти об'єкт у базу даних
         chatRef.setValue(this)
     }
+    // Перевірити, чи вже існує чат з такими ж refugee і landlord
+    fun isChatExists(refugeeUid: String, landlordUid: String, callback: (Boolean) -> Unit) {
+        val database = FirebaseDatabase.getInstance()
+        val chatsRef: DatabaseReference = database.getReference("chats")
+
+        chatsRef.orderByChild("refugee_uid").equalTo(refugeeUid)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    for (chatSnapshot in dataSnapshot.children) {
+                        val chat = chatSnapshot.getValue(Chat::class.java)
+                        if (chat != null && chat.landlord_uid == landlordUid) {
+                            // Знайдено чат з такими ж refugee і landlord
+                            callback(true)
+                            return
+                        }
+                    }
+
+                    // Жодного відповідного чату не знайдено
+                    callback(false)
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    callback(false)
+                }
+            })
+    }
+
+    // Зберегти новий чат з перевіркою існування
+    fun saveChatWithCheck(refugeeUid: String, landlordUid: String) {
+        isChatExists(refugeeUid, landlordUid) { chatExists ->
+            if (!chatExists) {
+                val chat = Chat("", refugeeUid, landlordUid)
+                chat.saveToDatabase()
+            }
+        }
+    }
     companion object {
         // Зчитати всі чати, в яких є певний refugee за його uid
         fun getChatsForRefugee(refugeeUid: String, callback: (List<Chat>) -> Unit) {

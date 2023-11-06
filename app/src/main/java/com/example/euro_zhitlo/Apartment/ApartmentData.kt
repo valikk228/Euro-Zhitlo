@@ -1,6 +1,8 @@
 package com.example.euro_zhitlo.Apartment
 import Apartment
 import android.graphics.Bitmap
+import android.os.Parcelable
+import androidx.annotation.Keep
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -10,27 +12,18 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
+import kotlinx.android.parcel.Parcelize
 import java.io.ByteArrayOutputStream
 import java.util.UUID
 
-class ApartmentData {
-    private val storageReference: StorageReference = FirebaseStorage.getInstance().reference
+@Keep
+@Parcelize
+public class ApartmentData : Parcelable {
     private val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child("apartments")
 
     // Завантаження зображення у Firebase Storage та збереження даних в Firebase Realtime Database
-    fun uploadData(uid:String,image: Bitmap, title: String, price: Int, location: String, access: Boolean, description: String, facilities: List<String>) {
-        val imageRef = storageReference.child("images/${UUID.randomUUID()}.jpg")
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        image.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
-        val data = byteArrayOutputStream.toByteArray()
+    fun uploadData(uid:String,imageUrl:String, title: String, price: Int, location: String, access: Boolean, description: String, facilities: List<String>) {
 
-        // Завантажити зображення в Firebase Storage
-        val uploadTask: UploadTask = imageRef.putBytes(data)
-
-        uploadTask.addOnSuccessListener {
-            // Завантаження успішне, отримати URL зображення
-            imageRef.downloadUrl.addOnSuccessListener { uri ->
-                val imageUrl = uri.toString()
 
                 // Створити об'єкт ApartmentData з URL зображення та іншими даними
                 val apartmentData = Apartment(uid,imageUrl, title, price, location, access, description, facilities)
@@ -40,11 +33,10 @@ class ApartmentData {
                 if (key != null) {
                     databaseReference.child(key).setValue(apartmentData)
                 }
-            }
-        }.addOnFailureListener { exception ->
-            // Обробити помилку завантаження зображення
-        }
+
     }
+
+
 
     fun readApartmentsRefugeeData(completion: (List<Apartment>) -> Unit) {
         databaseReference.addValueEventListener(object : ValueEventListener {

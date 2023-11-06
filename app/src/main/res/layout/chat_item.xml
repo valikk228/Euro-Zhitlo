@@ -30,8 +30,7 @@
             android:layout_width="43dp"
             android:layout_height="43dp"
             android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/image_apartment" />
+            android:scaleType="fitXY" />
 
     </androidx.cardview.widget.CardView>
 
@@ -41,7 +40,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:fontFamily="@font/sfu_regular"
-        android:text="Hello, my friend!"
         android:textColor="@android:color/darker_gray"
         android:textSize="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/cardView"
@@ -54,7 +52,6 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:fontFamily="@font/sfu_regular"
-        android:text="32 min ago"
         android:textColor="#7472E0"
         android:textSize="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/textView_nickname"
@@ -67,7 +64,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:fontFamily="@font/sfu_bold"
-        android:text="Carso Carpentery"
         android:textColor="@color/black"
         android:textSize="12dp"
         app:layout_constraintStart_toEndOf="@+id/cardView"

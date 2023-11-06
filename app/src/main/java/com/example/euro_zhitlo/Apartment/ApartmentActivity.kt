@@ -1,16 +1,25 @@
 package com.example.euro_zhitlo.Apartment
 
 import Apartment
+import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import com.example.euro_zhitlo.Account.User
+import com.example.euro_zhitlo.Chat.Chat
+import com.example.euro_zhitlo.Chat.ChatActivity
 import com.example.euro_zhitlo.R
+import com.google.firebase.auth.FirebaseAuth
 
 class ApartmentActivity: AppCompatActivity() {
+
+    val mAuth = FirebaseAuth.getInstance()
+    val user = mAuth.currentUser
+    val userId = user?.uid
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.apartment_activity)
@@ -21,6 +30,34 @@ class ApartmentActivity: AppCompatActivity() {
         }
 
         val apartment = intent.getParcelableExtra<Apartment>("apartment")
+        val book:Button = findViewById(R.id.button_book)
+
+        if (userId != null) {
+            User.getUserByUid(userId){userr->
+                if (userr != null) {
+                    if(userr.type == "refugee") {
+                        book.setOnClickListener(){
+                            val chat = Chat()
+                            if (apartment != null) {
+                                chat.landlord_uid = apartment.uid
+                            }
+                            chat.refugee_uid = userId
+                            chat.saveChatWithCheck(chat.refugee_uid,chat.landlord_uid)
+                            if (apartment != null) {
+                                User.getUserByUid(apartment.uid){landlord->
+                                    val intent = Intent(this@ApartmentActivity, ChatActivity::class.java)
+                                    intent.putExtra("user", landlord)
+                                    startActivity(intent)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else{
+            book.setText("Edit post")
+        }
 
         val title: TextView = findViewById(R.id.textView_title)
         val price: TextView = findViewById(R.id.textView_price)

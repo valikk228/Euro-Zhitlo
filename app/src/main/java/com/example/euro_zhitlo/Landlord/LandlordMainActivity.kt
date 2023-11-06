@@ -13,6 +13,7 @@ import com.example.euro_zhitlo.Apartment.AddApartmentActivity
 import com.example.euro_zhitlo.Apartment.ApartmentActivity
 import com.example.euro_zhitlo.Apartment.ApartmentAdapter
 import com.example.euro_zhitlo.Apartment.ApartmentData
+import com.example.euro_zhitlo.Apartment.ChoosePhotoActivity
 import com.example.euro_zhitlo.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -26,7 +27,7 @@ class LandlordMainActivity : AppCompatActivity(){
 
         val add:ImageView = findViewById(R.id.imageView_add)
         add.setOnClickListener(){
-            val intent = Intent(this@LandlordMainActivity,AddApartmentActivity::class.java)
+            val intent = Intent(this@LandlordMainActivity, ChoosePhotoActivity::class.java)
             startActivity(intent)
         }
         val bottomNavigationView:BottomNavigationView = findViewById(R.id.bottomNavigationView1)
