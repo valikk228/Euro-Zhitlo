@@ -81,7 +81,7 @@
         tools:ignore="MissingConstraints">
 
         <ImageView
-            android:id="@+id/imageView5"
+            android:id="@+id/imageView"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:adjustViewBounds="true"
@@ -107,8 +107,8 @@
 
     <Button
         android:id="@+id/button_send"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:background="@drawable/send_icon"
         app:layout_constraintBottom_toBottomOf="@+id/editTextText2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -118,8 +118,8 @@
 
     <Button
         android:id="@+id/button_photo"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_marginEnd="10dp"
         android:background="@drawable/addimage_icon"
         app:layout_constraintBottom_toBottomOf="@+id/editTextText2"

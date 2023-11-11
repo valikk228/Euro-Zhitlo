@@ -74,7 +74,7 @@ class RoleActivity : AppCompatActivity() {
             val uid = user?.uid
 
             if (uid != null) {
-                val user = User(uid, "","refugee", "")
+                val user = User(uid, "","refugee", "","","")
                 user.saveToDatabase()
             }
 
@@ -89,7 +89,7 @@ class RoleActivity : AppCompatActivity() {
             val uid = user?.uid
 
             if (uid != null) {
-                val user = User(uid, "","landlord", "")
+                val user = User(uid, "","landlord", "","","")
                 user.saveToDatabase()
             }
 

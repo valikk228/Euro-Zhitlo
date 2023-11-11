@@ -19,12 +19,14 @@ import java.io.IOException
 @Parcelize
 data class User(
     val uid: String,
-    val nickname: String,
+    var nickname: String,
     val type: String,
-    val image: String
+    val image: String,
+    var location: String,
+    var phone: String
 ) : Parcelable {
 
-    constructor() : this("", "", "", "")
+    constructor() : this("", "", "", "","","")
 
 
     // Зберегти об'єкт com.example.euro_zhitlo.Account.User в базі даних

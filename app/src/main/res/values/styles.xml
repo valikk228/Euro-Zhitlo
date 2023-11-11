@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-    <style name="AppTheme.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">#817FDA</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -21,6 +21,9 @@
     <style name="Widget.BottomNavigationView"
         parent="Widget.Design.BottomNavigationView">
         <item name="fontFamily">@font/sfu_black</item>
+        <item name="android:background">@color/white</item>
         <item name="android:windowContentTransitions">false</item>
     </style>
+
+
 </resources>

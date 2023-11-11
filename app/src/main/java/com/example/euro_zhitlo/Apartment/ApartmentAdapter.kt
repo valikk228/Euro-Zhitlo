@@ -56,7 +56,7 @@ class ApartmentAdapter(private val context: Context, private val apartments: Lis
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.imageView1) // Оновлено для ImageView
-        val image_availiable: ImageView = itemView.findViewById(R.id.imageView5) // Оновлено для ImageView
+        val image_availiable: ImageView = itemView.findViewById(R.id.imageView) // Оновлено для ImageView
         val titleTextView: TextView = itemView.findViewById(R.id.textView_title)
         val locationTextView: TextView = itemView.findViewById(R.id.textView_location)
         val priceTextView: TextView = itemView.findViewById(R.id.textView_price)

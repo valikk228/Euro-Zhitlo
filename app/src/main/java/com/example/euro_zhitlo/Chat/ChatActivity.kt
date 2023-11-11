@@ -43,7 +43,7 @@ class ChatActivity : AppCompatActivity() {
 
         val nickname: TextView = findViewById(R.id.textView_nickname)
         val image_companion: ImageView = findViewById(R.id.imageView3)
-        val image_user: ImageView = findViewById(R.id.imageView5)
+        val image_user: ImageView = findViewById(R.id.imageView)
 
         val back:ImageView = findViewById(R.id.imageView_back)
         val send: Button = findViewById(R.id.button_send)
@@ -118,17 +118,30 @@ class ChatActivity : AppCompatActivity() {
         val text: EditText = findViewById(R.id.editTextText2)
         val message = Message()
 
-        message.text = text.text.toString()
-        if (companion != null) {
-            message.uid_receiver = companion.uid
+        if(text.text.toString() != "") {
+            message.text = text.text.toString()
+            if (companion != null) {
+                message.uid_receiver = companion.uid
+            }
+            if (user != null) {
+                message.uid_sender = user.uid
+            }
+            message.time = Calendar.getInstance().time
+            message.photo = imageUrl
+            message.saveToDatabase()
+            text.setText("")
         }
-        if(user != null) {
-            message.uid_sender = user.uid
+        else if(imageUrl != ""){
+            if (companion != null) {
+                message.uid_receiver = companion.uid
+            }
+            if (user != null) {
+                message.uid_sender = user.uid
+            }
+            message.time = Calendar.getInstance().time
+            message.photo = imageUrl
+            message.saveToDatabase()
         }
-        message.time = Calendar.getInstance().time
-        message.photo = imageUrl
-        message.saveToDatabase()
-        text.setText("")
     }
     fun setRecyclerView(){
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)

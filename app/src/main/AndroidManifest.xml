@@ -44,6 +44,12 @@
         </activity>
 
         <activity
+            android:name=".Account.EditProfileActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
             android:name=".Landlord.LandlordMainActivity"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar">
@@ -60,6 +66,7 @@
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+
 
         <activity
             android:name=".Account.RegisterActivity"

@@ -75,7 +75,7 @@ class ApartmentActivity: AppCompatActivity() {
         facilietie_icon.add(findViewById(R.id.imageView_facilietie3))
         facilietie_icon.add(findViewById(R.id.imageView_facilietie4))
         val image:ImageView = findViewById(R.id.imageView1)
-        val image_availiable:ImageView = findViewById(R.id.imageView5)
+        val image_availiable:ImageView = findViewById(R.id.imageView)
 
         if (apartment != null) {
             title.text = apartment.title

@@ -56,6 +56,8 @@
         android:drawableLeft="@drawable/profile_icon3"
         android:fontFamily="@font/sfu_black"
         android:text="Біженець"
+        android:background="@drawable/rectangle_purple2"
+
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/imageView2"
         app:layout_constraintHorizontal_bias="0.496"
@@ -70,6 +72,7 @@
         android:drawableLeft="@drawable/home_icon2"
         android:fontFamily="@font/sfu_black"
         android:text="Здавач житла"
+        android:background="@drawable/rectangle_purple2"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/imageView2"
         app:layout_constraintStart_toStartOf="@+id/imageView2"

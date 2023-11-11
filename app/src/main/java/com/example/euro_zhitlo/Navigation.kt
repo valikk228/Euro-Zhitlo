@@ -1,5 +1,4 @@
 import android.content.Intent
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.startActivity
 import com.example.euro_zhitlo.Landlord.LandlordMainActivity

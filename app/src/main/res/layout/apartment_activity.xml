@@ -154,7 +154,7 @@
         app:srcCompat="@drawable/done_icon" />
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/imageView"
         android:layout_width="15dp"
         android:layout_height="15dp"
         android:layout_marginBottom="4dp"
@@ -172,9 +172,9 @@
         android:text=""
         android:textColor="@android:color/darker_gray"
         android:textSize="12dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView5"
-        app:layout_constraintStart_toEndOf="@+id/imageView5"
-        app:layout_constraintTop_toTopOf="@+id/imageView5" />
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/imageView" />
 
     <TextView
         android:id="@+id/textView3"
@@ -308,6 +308,7 @@
         android:layout_marginTop="20dp"
         android:fontFamily="@font/sfu_black"
         android:text="Book now"
+        android:background="@drawable/rectangle_purple2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_facilitie3" />

@@ -54,8 +54,8 @@ class RegisterActivity : AppCompatActivity() {
                     mAuth.createUserWithEmailAndPassword(emailText, passwordText)
                         .addOnCompleteListener { task: Task<AuthResult> ->
                             if (task.isSuccessful) {
-                                // Перевірка ролі користувача та перехід
-                                checkUserRole()
+                                val intent = Intent(this@RegisterActivity, RoleActivity::class.java)
+                                startActivity(intent)
                             } else {
                                 val exception = task.exception
                                 if (exception != null) {
