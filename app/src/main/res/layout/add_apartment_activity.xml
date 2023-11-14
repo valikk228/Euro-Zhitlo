@@ -55,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:fontFamily="@font/sfu_black"
         android:text="Price"
         android:textSize="14dp"
@@ -66,20 +66,20 @@
         android:id="@+id/textView20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="15dp"
         android:fontFamily="@font/sfu_black"
         android:text="Description"
         android:textSize="14dp"
         app:layout_constraintStart_toStartOf="@+id/editTextTitle"
-        app:layout_constraintTop_toBottomOf="@+id/editTextLocation" />
+        app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextView2" />
 
     <TextView
         android:id="@+id/textView21"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:fontFamily="@font/sfu_black"
         android:text="Facilieties"
         android:textSize="14dp"
@@ -91,7 +91,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:fontFamily="@font/sfu_black"
         android:text="Location"
         android:textSize="14dp"
@@ -143,7 +143,7 @@
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:background="@drawable/rectangle_white_search"
-        android:drawableStart="@drawable/home_icon3"
+        android:drawableStart="@drawable/price_icon"
         android:drawablePadding="10dp"
         android:ems="10"
         android:fontFamily="@font/sfu_medium"
@@ -154,28 +154,47 @@
         app:layout_constraintStart_toStartOf="@+id/editTextTitle"
         app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
-    <EditText
-        android:id="@+id/editTextLocation"
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTextView"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:background="@drawable/rectangle_white_search"
         android:drawableStart="@drawable/location_icon"
         android:drawablePadding="10dp"
         android:ems="10"
+        android:completionThreshold="1"
         android:fontFamily="@font/sfu_medium"
-        android:hint="Enter location..."
+        android:hint="Choose the country..."
         android:inputType="text"
         android:padding="10dp"
         android:textSize="15dp"
         app:layout_constraintStart_toStartOf="@+id/editTextPrice"
         app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTextView2"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/rectangle_white_search"
+        android:drawableStart="@drawable/location_icon"
+        android:drawablePadding="10dp"
+        android:ems="10"
+        android:completionThreshold="1"
+        android:fontFamily="@font/sfu_medium"
+        android:hint="Choose the city..."
+        android:inputType="text"
+        android:padding="10dp"
+        android:textSize="15dp"
+        app:layout_constraintStart_toStartOf="@+id/editTextPrice"
+        app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextView" />
+
     <EditText
         android:id="@+id/editTextDescription"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:background="@drawable/rectangle_white_search"
-        android:drawableStart="@drawable/location_icon"
+        android:drawableStart="@drawable/description_icon"
         android:drawablePadding="10dp"
         android:ems="10"
         android:fontFamily="@font/sfu_medium"
@@ -183,7 +202,7 @@
         android:inputType="text"
         android:padding="10dp"
         android:textSize="15dp"
-        app:layout_constraintStart_toStartOf="@+id/editTextLocation"
+        app:layout_constraintStart_toStartOf="@+id/autoCompleteTextView"
         app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
     <EditText

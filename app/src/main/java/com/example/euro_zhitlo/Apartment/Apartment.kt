@@ -15,13 +15,14 @@ data class Apartment(
     val image: String,
     val title: String,
     val price: Int,
-    val location: String,
+    var country: String,
+    val city: String,
     val access: Boolean,
     val description: String,
     val facilities: List<String>
 ) : Parcelable {
 
-    constructor() : this("","", "", 0, "", false, "", emptyList())
+    constructor() : this("","", "", 0, "","", false, "", emptyList())
 
     fun getBitmapFromFirebaseStorage(callback: (Bitmap?) -> Unit) {
         val storageRef: StorageReference = FirebaseStorage.getInstance().getReferenceFromUrl(image)

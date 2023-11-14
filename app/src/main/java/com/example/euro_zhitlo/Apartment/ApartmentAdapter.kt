@@ -44,7 +44,7 @@ class ApartmentAdapter(private val context: Context, private val apartments: Lis
         }
 
         holder.titleTextView.text = apartment.title
-        holder.locationTextView.text = apartment.location
+        holder.locationTextView.text = apartment.country + ", " + apartment.city
         holder.priceTextView.text = apartment.price.toString() + "€ /"
         if (apartment.access) holder.accessTextView.text = "Availiable"
         else

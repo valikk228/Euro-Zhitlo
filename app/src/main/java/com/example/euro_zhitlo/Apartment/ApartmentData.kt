@@ -22,11 +22,11 @@ public class ApartmentData : Parcelable {
     private val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child("apartments")
 
     // Завантаження зображення у Firebase Storage та збереження даних в Firebase Realtime Database
-    fun uploadData(uid:String,imageUrl:String, title: String, price: Int, location: String, access: Boolean, description: String, facilities: List<String>) {
+    fun uploadData(uid:String,imageUrl:String, title: String, price: Int, country: String,city: String, access: Boolean, description: String, facilities: List<String>) {
 
 
                 // Створити об'єкт ApartmentData з URL зображення та іншими даними
-                val apartmentData = Apartment(uid,imageUrl, title, price, location, access, description, facilities)
+                val apartmentData = Apartment(uid,imageUrl, title, price, country, city, access, description, facilities)
 
                 // Зберегти дані в Firebase Realtime Database
                 val key = databaseReference.push().key

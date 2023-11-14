@@ -233,7 +233,7 @@
 
 
     <EditText
-        android:id="@+id/editTextLocation"
+        android:id="@+id/autoCompleteTextView"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:background="@drawable/rectangle_white_search"
@@ -261,7 +261,7 @@
         android:textColor="@android:color/darker_gray"
         android:textSize="12dp"
         app:layout_constraintBottom_toBottomOf="@+id/textView22"
-        app:layout_constraintStart_toStartOf="@+id/editTextLocation"
+        app:layout_constraintStart_toStartOf="@+id/autoCompleteTextView"
         app:layout_constraintTop_toTopOf="@+id/textView22" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

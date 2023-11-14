@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import com.example.euro_zhitlo.Landlord.LandlordMainActivity
 import com.example.euro_zhitlo.Landlord.LandlordProfileActivity
 import com.example.euro_zhitlo.R
 import com.example.euro_zhitlo.Refugee.RefugeeProfileActivity
@@ -24,7 +23,7 @@ class EditProfileActivity : AppCompatActivity(){
 
         val nickname: EditText = findViewById(R.id.editTextNickname)
         val email: EditText = findViewById(R.id.editTextEmail)
-        val location: EditText = findViewById(R.id.editTextLocation)
+        val location: EditText = findViewById(R.id.autoCompleteTextView)
         val phone: EditText= findViewById(R.id.editTextPhone)
 
         val save:Button = findViewById(R.id.buttonSave)
