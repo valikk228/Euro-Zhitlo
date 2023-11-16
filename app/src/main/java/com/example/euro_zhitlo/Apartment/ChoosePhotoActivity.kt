@@ -1,5 +1,6 @@
 package com.example.euro_zhitlo.Apartment
 
+
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -8,11 +9,13 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.euro_zhitlo.R
-import com.google.firebase.auth.FirebaseAuth
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import com.bumptech.glide.Glide
+import com.example.euro_zhitlo.Apartment.AddApartmentActivity
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
+import com.example.euro_zhitlo.R
 import java.io.ByteArrayOutputStream
 import java.util.UUID
 
@@ -28,8 +31,8 @@ class ChoosePhotoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.choose_photo_activity)
 
-        val back:ImageView = findViewById(R.id.imageView_back)
-        back.setOnClickListener(){
+        val back: ImageView = findViewById(R.id.imageView_back)
+        back.setOnClickListener() {
             finish()
         }
         photo = findViewById(R.id.imageViewPhoto)
@@ -51,6 +54,17 @@ class ChoosePhotoActivity : AppCompatActivity() {
             val selectedImageUri = data?.data
 
             if (selectedImageUri != null) {
+                val circularProgressDrawable = CircularProgressDrawable(this)
+                circularProgressDrawable.strokeWidth = 5f
+                circularProgressDrawable.centerRadius = 25f
+                circularProgressDrawable.start()
+
+                // Використовуємо Glide для завантаження фотографії і встановлення кругового прогресу
+                Glide.with(this)
+                    .load(selectedImageUri)
+                    .placeholder(circularProgressDrawable)
+                    .into(photo)
+
                 val inputStream = contentResolver.openInputStream(selectedImageUri)
                 val bitmap = BitmapFactory.decodeStream(inputStream)
                 image = bitmap

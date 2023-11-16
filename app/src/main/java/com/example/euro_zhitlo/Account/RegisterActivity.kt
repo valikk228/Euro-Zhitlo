@@ -2,6 +2,7 @@ package com.example.euro_zhitlo.Account
 
 import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -28,15 +29,16 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.register_activity)
 
+        mAuth = FirebaseAuth.getInstance()
+        userRef = FirebaseDatabase.getInstance().getReference("typeUser")
+
+
         val buttonGoogle: Button = findViewById(R.id.buttonGoogle)
         val buttonRegister: Button = findViewById(R.id.buttonRegister)
         val textLogin: TextView = findViewById(R.id.textView9)
         val email: EditText = findViewById(R.id.editTextTextEmailAddress)
         val password: EditText = findViewById(R.id.editTextTextPassword)
         val repeatPassword: EditText = findViewById(R.id.editTextTextPassword2)
-
-        mAuth = FirebaseAuth.getInstance()
-        userRef = FirebaseDatabase.getInstance().getReference("typeUser")
 
         textLogin.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
@@ -56,6 +58,8 @@ class RegisterActivity : AppCompatActivity() {
                             if (task.isSuccessful) {
                                 val intent = Intent(this@RegisterActivity, RoleActivity::class.java)
                                 startActivity(intent)
+                                saveAuthenticationStatus(true)
+                                finish()
                             } else {
                                 val exception = task.exception
                                 if (exception != null) {
@@ -102,6 +106,7 @@ class RegisterActivity : AppCompatActivity() {
                         if (googleSignInTask.isSuccessful) {
                             // Вхід відбувся успішно, перевірка ролі та перехід
                             checkUserRole()
+                            saveAuthenticationStatus(true)
                         } else {
                             // Обробити помилку входу в Firebase через Google
                         }
@@ -121,17 +126,20 @@ class RegisterActivity : AppCompatActivity() {
                         "refugee" -> {
                             val intent = Intent(this@RegisterActivity, RefugeeMainActivity::class.java)
                             startActivity(intent)
+                            finish()
                         }
 
                         "landlord" -> {
                             val intent = Intent(this@RegisterActivity, LandlordMainActivity::class.java)
                             startActivity(intent)
+                            finish()
                         }
 
                         else -> {
                             // Якщо роль невідома, перехід на сторінку для вибору ролі
                             val intent = Intent(this@RegisterActivity, RoleActivity::class.java)
                             startActivity(intent)
+                            finish()
                         }
                     }
                 }
@@ -141,4 +149,12 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun saveAuthenticationStatus(isAuthenticated: Boolean) {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val editor = preferences.edit()
+        editor.putBoolean("isAuthenticated", isAuthenticated)
+        editor.apply()
+    }
 }
+

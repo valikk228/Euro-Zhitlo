@@ -5,6 +5,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.View.GONE
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
@@ -12,6 +14,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.example.euro_zhitlo.Account.User
 import com.example.euro_zhitlo.Chat.Chat
 import com.example.euro_zhitlo.Chat.ChatActivity
@@ -21,6 +24,7 @@ import com.example.euro_zhitlo.Location.GeographyApiHandler
 import com.example.euro_zhitlo.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
+import com.squareup.picasso.Picasso
 
 class ApartmentActivity: AppCompatActivity() {
 
@@ -173,13 +177,33 @@ class ApartmentActivity: AppCompatActivity() {
                 }
             }
 
+            // Створення CircularProgressDrawable
+            val circularProgressDrawable = CircularProgressDrawable(this)
+            circularProgressDrawable.strokeWidth = 10f
+            circularProgressDrawable.centerRadius = 50f
+            circularProgressDrawable.start()
+
+            image.setImageDrawable(circularProgressDrawable)
 
             apartment.getBitmapFromFirebaseStorage { bitmap ->
-                if (bitmap != null) {
-                    // Встановлюємо Bitmap у ImageView, якщо він доступний
-                    image.setImageBitmap(bitmap)
-                }
+                Picasso.get()
+                    .load(apartment.image)
+                    .placeholder(circularProgressDrawable)
+                    .into(image, object : com.squareup.picasso.Callback {
+                        override fun onSuccess() {
+                            // Викликається, коли завантаження успішне
+                            circularProgressDrawable.stop()
+                            circularProgressDrawable.alpha = 0
+                        }
+
+                        override fun onError(e: Exception?) {
+                            // Викликається в разі помилки завантаження
+                            circularProgressDrawable.stop()
+                            circularProgressDrawable.alpha = 0
+                        }
+                    })
             }
+
         }
     }
 }

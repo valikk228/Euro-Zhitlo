@@ -1,6 +1,7 @@
 package com.example.euro_zhitlo.Landlord
 
 import Apartment
+import ApartmentAdapter
 import Navigation
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -9,9 +10,7 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.euro_zhitlo.Apartment.AddApartmentActivity
 import com.example.euro_zhitlo.Apartment.ApartmentActivity
-import com.example.euro_zhitlo.Apartment.ApartmentAdapter
 import com.example.euro_zhitlo.Apartment.ApartmentData
 import com.example.euro_zhitlo.Apartment.ChoosePhotoActivity
 import com.example.euro_zhitlo.R

@@ -7,8 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.euro_zhitlo.Account.User
-import com.example.euro_zhitlo.Apartment.ApartmentActivity
-import com.example.euro_zhitlo.Apartment.ApartmentAdapter
 import com.example.euro_zhitlo.Apartment.ChatAdapter
 import com.example.euro_zhitlo.Chat.Chat
 import com.example.euro_zhitlo.Chat.ChatActivity

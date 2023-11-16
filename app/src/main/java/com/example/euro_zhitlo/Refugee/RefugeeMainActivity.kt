@@ -1,6 +1,7 @@
 package com.example.euro_zhitlo.Refugee
 
 import Apartment
+import ApartmentAdapter
 import Navigation
 import android.content.Intent
 import android.os.Bundle
@@ -12,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.euro_zhitlo.Apartment.ApartmentActivity
-import com.example.euro_zhitlo.Apartment.ApartmentAdapter
 import com.example.euro_zhitlo.Apartment.ApartmentData
 import com.example.euro_zhitlo.Location.City
 import com.example.euro_zhitlo.Location.Country
@@ -25,6 +25,9 @@ class RefugeeMainActivity : AppCompatActivity() {
 
     private val navigation = Navigation(this)
     private val geographyApiHandler = GeographyApiHandler()
+    val read = ApartmentData()
+    lateinit var countries: AutoCompleteTextView
+    lateinit var cities: AutoCompleteTextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,14 +36,14 @@ class RefugeeMainActivity : AppCompatActivity() {
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView1)
         navigation.showRefugeeNavigation(bottomNavigationView, 0)
 
-        val read = ApartmentData()
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
         val search: Button = findViewById(R.id.button5)
+        val cancel: Button = findViewById(R.id.buttonCancel)
 
-        var countries: AutoCompleteTextView = findViewById(R.id.autoCompleteTextView)
-        var cities: AutoCompleteTextView = findViewById(R.id.autoCompleteTextView2)
+        countries = findViewById(R.id.autoCompleteTextView)
+        cities = findViewById(R.id.autoCompleteTextView2)
         val citiesAdapter = ArrayAdapter(
             this@RefugeeMainActivity,
             android.R.layout.simple_spinner_dropdown_item,
@@ -110,6 +113,11 @@ class RefugeeMainActivity : AppCompatActivity() {
             }
         }
 
+        SetRecyclerView(cancel,search,recyclerView)
+
+    }
+
+    fun SetRecyclerView(cancel: Button, search:Button,recyclerView:RecyclerView){
         read.readApartmentsRefugeeData { apartments ->
             var adapter = ApartmentAdapter(this, apartments)
             adapter.setOnItemClickListener(object : ApartmentAdapter.OnItemClickListener {
@@ -128,6 +136,12 @@ class RefugeeMainActivity : AppCompatActivity() {
                 val countryName: AutoCompleteTextView = findViewById(R.id.autoCompleteTextView)
                 val cityName: AutoCompleteTextView = findViewById(R.id.autoCompleteTextView2)
 
+                cancel.setOnClickListener(){
+                    SetRecyclerView(cancel,search,recyclerView)
+                    countries.setText("")
+                    cities.setText("")
+                }
+
                 if (countryName.text.toString() != "" && cityName.text.toString() != "") {
                     for (apartment in apartments) {
                         if (apartment.country == countryName.text.toString() && apartment.city == cityName.text.toString()) {
@@ -142,6 +156,15 @@ class RefugeeMainActivity : AppCompatActivity() {
                     }
                 }
                 adapter = ApartmentAdapter(this, filterApartments)
+                adapter.setOnItemClickListener(object : ApartmentAdapter.OnItemClickListener {
+                    override fun onItemClick(apartment: Apartment) {
+                        val intent = Intent(this@RefugeeMainActivity, ApartmentActivity::class.java)
+                        val extras = Bundle()
+                        extras.putParcelable("apartment", apartment)
+                        intent.putExtras(extras)
+                        startActivity(intent)
+                    }
+                })
                 recyclerView.adapter = adapter
             }
         }

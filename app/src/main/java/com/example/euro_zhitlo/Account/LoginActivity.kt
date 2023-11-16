@@ -2,6 +2,7 @@ package com.example.euro_zhitlo.Account
 
 import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -10,13 +11,14 @@ import com.example.euro_zhitlo.Landlord.LandlordMainActivity
 import com.example.euro_zhitlo.R
 import com.example.euro_zhitlo.Refugee.RefugeeMainActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.database.*
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class LoginActivity : AppCompatActivity() {
     private val mAuth = FirebaseAuth.getInstance()
@@ -52,20 +54,16 @@ class LoginActivity : AppCompatActivity() {
             // Перевірка, чи введені дані коректні (непорожні)
             if (emailText.isNotEmpty() && passwordText.isNotEmpty()) {
                 mAuth.signInWithEmailAndPassword(emailText, passwordText)
-                    .addOnCompleteListener { task: Task<*> ->
+                    .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             // Вхід в аккаунт пройшов успішно
-                            val user = mAuth.currentUser
-                            if (user != null) {
-                                // Ви можете перейти на іншу активність, наприклад, MainActivity
-                                checkUserRole()
-                            }
+                            checkUserRole()
+                            saveAuthenticationStatus(true)
                         } else {
                             // Вивести повідомлення про помилку, якщо вхід не вдався
                             val exception = task.exception
                             if (exception != null) {
-                                // Отримано об'єкт помилки (exception)
-                                // Обробте його, щоб дізнатися, в чому полягає проблема.
+                                // Обробити об'єкт помилки (exception)
                             }
                         }
                     }
@@ -110,6 +108,7 @@ class LoginActivity : AppCompatActivity() {
                         if (googleSignInTask.isSuccessful) {
                             // Вхід відбувся успішно, перевірка ролі та перехід
                             checkUserRole()
+                            saveAuthenticationStatus(true)
                         } else {
                             // Обробити помилку входу в Firebase через Google
                         }
@@ -123,32 +122,37 @@ class LoginActivity : AppCompatActivity() {
     private fun checkUserRole() {
         val user = mAuth.currentUser
         if (user != null) {
-                User.getUserByUid(user.uid) { userObj ->
-                    if (userObj != null) {
-                        when (userObj.type) {
-                            "refugee" -> {
-                                val intent = Intent(this@LoginActivity, RefugeeMainActivity::class.java)
-                                startActivity(intent)
-                            }
+            User.getUserByUid(user.uid) { userObj ->
+                if (userObj != null) {
+                    when (userObj.type) {
+                        "refugee" -> {
+                            val intent = Intent(this@LoginActivity, RefugeeMainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
 
-                            "landlord" -> {
-                                val intent = Intent(this@LoginActivity, LandlordMainActivity::class.java)
-                                startActivity(intent)
-                            }
+                        "landlord" -> {
+                            val intent = Intent(this@LoginActivity, LandlordMainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
 
-                            else -> {
-                                // Якщо роль невідома, перехід на сторінку для вибору ролі
-                                val intent = Intent(this@LoginActivity, RoleActivity::class.java)
-                                startActivity(intent)
-                            }
+                        else -> {
+                            // Якщо роль невідома, перехід на сторінку для вибору ролі
+                            val intent = Intent(this@LoginActivity, RoleActivity::class.java)
+                            startActivity(intent)
+                            finish()
                         }
                     }
-                    else
-                    {
-                    }
+                }
             }
         }
     }
+
+    private fun saveAuthenticationStatus(isAuthenticated: Boolean) {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val editor = preferences.edit()
+        editor.putBoolean("isAuthenticated", isAuthenticated)
+        editor.apply()
+    }
 }
-
-

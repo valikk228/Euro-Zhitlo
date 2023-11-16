@@ -1,9 +1,13 @@
 package com.example.euro_zhitlo.Account
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Parcelable
+import android.widget.ImageView
 import androidx.annotation.Keep
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -11,6 +15,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.squareup.picasso.Picasso
 import kotlinx.android.parcel.Parcelize
 import java.io.File
 import java.io.IOException
@@ -21,7 +26,7 @@ data class User(
     val uid: String,
     var nickname: String,
     val type: String,
-    val image: String,
+    var image: String,
     var location: String,
     var phone: String
 ) : Parcelable {
@@ -84,6 +89,49 @@ data class User(
             })
         }
 
+        fun updateProfileImage(mAuth: FirebaseAuth, image: ImageView, imageUrl: String,context: Context) {
+
+            val storageRef: StorageReference = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl)
+            val circularProgressDrawable = CircularProgressDrawable(context)
+            circularProgressDrawable.strokeWidth = 5f
+            circularProgressDrawable.centerRadius = 25f
+            circularProgressDrawable.start()
+
+            image.setImageDrawable(circularProgressDrawable)
+
+            mAuth.currentUser?.let {
+                User.getUserByUid(it.uid) { user ->
+                    if (user != null) {
+                        try {
+                            val localFile = File.createTempFile("images", "jpg")
+                            storageRef.getFile(localFile).addOnSuccessListener {
+                                Picasso.get()
+                                    .load(imageUrl)
+                                    .placeholder(circularProgressDrawable)
+                                    .into(image, object : com.squareup.picasso.Callback {
+                                        override fun onSuccess() {
+                                            // Викликається, коли завантаження успішне
+                                            circularProgressDrawable.stop()
+                                            circularProgressDrawable.alpha = 0
+                                        }
+
+                                        override fun onError(e: Exception?) {
+                                            // Викликається в разі помилки завантаження
+                                            circularProgressDrawable.stop()
+                                            circularProgressDrawable.alpha = 0
+                                        }
+                                    })                        }.addOnFailureListener { exception ->
+                                // Обробка помилки, якщо виникла
+                            }
+                        } catch (e: IOException) {
+                            // Обробка помилки створення тимчасового файлу
+                        }
+                    }
+                }
+            }
+        }
+
+
     }
     fun getBitmapFromFirebaseStorage(callback: (Bitmap?) -> Unit) {
         val storageRef: StorageReference = FirebaseStorage.getInstance().getReferenceFromUrl(image)
@@ -102,4 +150,5 @@ data class User(
             callback(null)
         }
     }
+
 }

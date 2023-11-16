@@ -3,17 +3,24 @@ package com.example.euro_zhitlo.Refugee
 import Navigation
 import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.MenuInflater
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.example.euro_zhitlo.Account.EditProfileActivity
 import com.example.euro_zhitlo.Account.RegisterActivity
 import com.example.euro_zhitlo.Account.User
 import com.example.euro_zhitlo.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.squareup.picasso.Picasso
+import java.io.File
+import java.io.IOException
 
 class RefugeeProfileActivity : AppCompatActivity(){
 
@@ -42,9 +49,7 @@ class RefugeeProfileActivity : AppCompatActivity(){
                     nickname.text = user.nickname
                     location.text = user.location
                     phone.text = user.phone
-                    user.getBitmapFromFirebaseStorage { image->
-                        avatar.setImageBitmap(image)
-                    }
+                    User.updateProfileImage(mAuth,avatar,user.image,this)
                 }
             }
         }
@@ -59,10 +64,19 @@ class RefugeeProfileActivity : AppCompatActivity(){
             mAuth.signOut()
             val intent = Intent(this@RefugeeProfileActivity, RegisterActivity::class.java)
             startActivity(intent)
+            saveAuthenticationStatus(false)
             finish()
         }
 
         val bottomNavigationView:BottomNavigationView = findViewById(R.id.bottomNavigationView1)
         navigation.showRefugeeNavigation(bottomNavigationView,3)
     }
+
+    private fun saveAuthenticationStatus(isAuthenticated: Boolean) {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val editor = preferences.edit()
+        editor.putBoolean("isAuthenticated", isAuthenticated)
+        editor.apply()
+    }
+
 }

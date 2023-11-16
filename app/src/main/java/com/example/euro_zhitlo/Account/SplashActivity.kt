@@ -3,6 +3,7 @@ package com.example.euro_zhitlo.Account
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatActivity
 import com.example.euro_zhitlo.Landlord.LandlordMainActivity
 import com.example.euro_zhitlo.R
@@ -31,50 +32,53 @@ class SplashActivity : AppCompatActivity() {
             userRef = database.getReference("typeUser")
             mAuth = FirebaseAuth.getInstance()
 
+            val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+            val isAuthenticated = preferences.getBoolean("isAuthenticated", false)
 
-            val user = mAuth.currentUser
-            val uid = user?.uid
-
-            if (uid != null) {
-                // Перевіряємо, чи вже є роль користувача в базі даних для цього UID
-                userRef.child(uid).addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        if (snapshot.exists()) {
-                            // Роль користувача вже збережена
-                            val role = snapshot.getValue(String::class.java)
-                            if (role == "refugee") {
-                                val intent = Intent(this@SplashActivity, RefugeeMainActivity::class.java)
-                                startActivity(intent)
-                                finish()
-                            } else if (role == "landlord") {
-                                val intent = Intent(this@SplashActivity, LandlordMainActivity::class.java)
-                                startActivity(intent)
-                                finish()
-                            }
-                            else
-                            {
-                                val intent = Intent(this@SplashActivity, RegisterActivity::class.java)
-                                startActivity(intent)
-                                finish()
-                            }
-                        } else {
-                            val intent = Intent(this@SplashActivity, RegisterActivity::class.java)
-                            startActivity(intent)
-                            finish()
-                        }
-                    }
-
-                    override fun onCancelled(error: DatabaseError) {
-                        // Обробляємо помилку доступу до бази даних
-                    }
-                })
+            if (isAuthenticated)
+            {
+                checkUserRole()
             }
-            else{
+            else
+            {
                 val intent = Intent(this@SplashActivity, RegisterActivity::class.java)
                 startActivity(intent)
                 finish()
             }
         }, SPLASH_TIME_OUT)
+    }
+
+    private fun checkUserRole() {
+        val user = mAuth.currentUser
+        if (user != null) {
+            User.getUserByUid(user.uid) { userObj ->
+                if (userObj != null) {
+                    when (userObj.type) {
+                        "refugee" -> {
+                            val intent = Intent(this@SplashActivity, RefugeeMainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+
+                        "landlord" -> {
+                            val intent = Intent(this@SplashActivity, LandlordMainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+
+                        else -> {
+                            // Якщо роль невідома, перехід на сторінку для вибору ролі
+                            val intent = Intent(this@SplashActivity, RoleActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                    }
+                }
+                else
+                {
+                }
+            }
+        }
     }
 }
 

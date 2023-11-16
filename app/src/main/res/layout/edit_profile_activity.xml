@@ -47,6 +47,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/rectangle_purple" />
 
+    <ImageView
+        android:id="@+id/imageView_back"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="40dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView3"
+        app:srcCompat="@drawable/back_icon" />
+
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
@@ -91,21 +101,8 @@
             android:layout_height="100dp"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
-            android:src="@drawable/image_apartment"
             android:textAlignment="center" />
     </androidx.cardview.widget.CardView>
-
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:labelVisibilityMode="labeled"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_refugee_nav" />
 
 
     <ImageView
