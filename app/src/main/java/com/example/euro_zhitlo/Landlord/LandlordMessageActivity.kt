@@ -3,6 +3,9 @@ package com.example.euro_zhitlo.Landlord
 import Navigation
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +21,8 @@ class LandlordMessageActivity : AppCompatActivity() {
 
     private val navigation = Navigation(this)
     private val mAuth = FirebaseAuth.getInstance()
+    private lateinit var chatAdapter: ChatAdapter
+    private val allChats: MutableList<Chat> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,10 +31,26 @@ class LandlordMessageActivity : AppCompatActivity() {
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView1)
         navigation.showLandlordNavigation(bottomNavigationView, 1)
 
+        val search: EditText = findViewById(R.id.editTextText)
+        search.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Не потрібно реагувати на цю подію
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Не потрібно реагувати на цю подію
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // Викликаємо метод для фільтрації при зміні тексту
+                chatAdapter.filterChats(s.toString())
+            }
+        })
+
         setRecyclerView()
     }
 
-    fun setRecyclerView(){
+    fun setRecyclerView() {
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
@@ -38,20 +59,23 @@ class LandlordMessageActivity : AppCompatActivity() {
         val user = mAuth.currentUser
         if (user != null) {
             Chat.getChatsForLandlord(user.uid) { chats ->
-                val chatAdapter = ChatAdapter(this, chats)
+                allChats.clear()
+                allChats.addAll(chats)
+
+                // Ініціалізуємо адаптер та встановлюємо його для RecyclerView
+                chatAdapter = ChatAdapter(this, allChats)
                 chatAdapter.setOnItemClickListener(object : ChatAdapter.OnItemClickListener {
                     override fun onItemClick(chat: Chat) {
-                        User.getUserByUid(chat.refugee_uid){userr->
+                        User.getUserByUid(chat.refugee_uid){ userr->
                             val intent = Intent(this@LandlordMessageActivity, ChatActivity::class.java)
                             intent.putExtra("user", userr)
                             startActivity(intent)
                         }
                     }
                 })
-                // Встановіть адаптер для RecyclerView
                 recyclerView.adapter = chatAdapter
             }
         }
     }
-}
 
+}

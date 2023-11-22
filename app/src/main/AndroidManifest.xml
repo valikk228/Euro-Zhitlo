@@ -4,6 +4,9 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
 
     <application
         android:allowBackup="true"
@@ -43,11 +46,14 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
+
         <activity
-            android:name=".Account.EditProfileActivity"
+            android:name=".Refugee.AdvancedSearchActivity"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+
+
 
         <activity
             android:name=".Landlord.LandlordMainActivity"
@@ -67,6 +73,12 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
+
+        <activity
+            android:name=".Account.EditProfileActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
 
         <activity
             android:name=".Account.RegisterActivity"
@@ -97,6 +109,12 @@
         </activity>
 
         <activity
+            android:name=".Account.ProfileActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
             android:name=".Apartment.ApartmentActivity"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar">
@@ -109,7 +127,7 @@
         </activity>
 
         <activity
-            android:name=".Chat.ChatActivity"
+            android:name=".Apartment.EditApartmentActivity"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
@@ -120,6 +138,11 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
+        <activity
+            android:name=".Chat.ChatActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
 
     </application>
 </manifest>

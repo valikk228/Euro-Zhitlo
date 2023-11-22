@@ -25,13 +25,14 @@ import java.io.IOException
 data class User(
     val uid: String,
     var nickname: String,
+    var email: String,
     val type: String,
     var image: String,
     var location: String,
     var phone: String
 ) : Parcelable {
 
-    constructor() : this("", "", "", "","","")
+    constructor() : this("", "", "","", "","","")
 
 
     // Зберегти об'єкт com.example.euro_zhitlo.Account.User в базі даних

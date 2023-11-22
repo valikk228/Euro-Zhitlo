@@ -15,10 +15,13 @@ import com.example.euro_zhitlo.Apartment.ApartmentData
 import com.example.euro_zhitlo.Apartment.ChoosePhotoActivity
 import com.example.euro_zhitlo.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 
 class LandlordMainActivity : AppCompatActivity(){
 
     private val navigation = Navigation(this)
+    private val mAuth = FirebaseAuth.getInstance()
+    private val userUid = mAuth.currentUser?.uid
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +46,8 @@ class LandlordMainActivity : AppCompatActivity(){
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
 
-            read.readApartmentsLandlordData { apartments ->
+        if (userUid != null) {
+            read.readApartmentsLandlordData(userUid) { apartments ->
                 // Отримуємо дані в цьому зворотньому виклику
                 val adapter = ApartmentAdapter(this, apartments)
                 adapter.setOnItemClickListener(object : ApartmentAdapter.OnItemClickListener {
@@ -55,6 +59,7 @@ class LandlordMainActivity : AppCompatActivity(){
                 })
                 recyclerView.adapter = adapter
             }
+        }
     }
 }
 

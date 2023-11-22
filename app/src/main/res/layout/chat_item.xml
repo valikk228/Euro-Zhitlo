@@ -35,37 +35,13 @@
     </androidx.cardview.widget.CardView>
 
     <TextView
-        android:id="@+id/textView_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:fontFamily="@font/sfu_regular"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/cardView"
-        app:layout_constraintStart_toEndOf="@+id/cardView"
-        app:layout_constraintTop_toBottomOf="@+id/textView_nickname" />
-
-    <TextView
-        android:id="@+id/textView_timeMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:fontFamily="@font/sfu_regular"
-        android:textColor="#7472E0"
-        android:textSize="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView_nickname"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView_nickname" />
-
-    <TextView
         android:id="@+id/textView_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:fontFamily="@font/sfu_bold"
         android:textColor="@color/black"
-        android:textSize="12dp"
+        android:textSize="14dp"
         app:layout_constraintStart_toEndOf="@+id/cardView"
         app:layout_constraintTop_toTopOf="@+id/cardView" />
 

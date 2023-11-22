@@ -74,8 +74,10 @@ class RoleActivity : AppCompatActivity() {
             val uid = user?.uid
 
             if (uid != null) {
-                val user = User(uid, "","refugee", "","","")
-                user.saveToDatabase()
+                val user = user.email?.let { it1 -> User(uid, "", it1,"refugee", "","","") }
+                if (user != null) {
+                    user.saveToDatabase()
+                }
             }
 
             val intent = Intent(this, RefugeeMainActivity::class.java)
@@ -89,8 +91,10 @@ class RoleActivity : AppCompatActivity() {
             val uid = user?.uid
 
             if (uid != null) {
-                val user = User(uid, "","landlord", "","","")
-                user.saveToDatabase()
+                val user = user.email?.let { it1 -> User(uid, "", it1,"landlord", "","","") }
+                if (user != null) {
+                    user.saveToDatabase()
+                }
             }
 
             val intent = Intent(this, LandlordMainActivity::class.java)

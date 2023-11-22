@@ -23,7 +23,7 @@
         app:layout_constraintStart_toStartOf="@+id/imageView1" />
 
     <Button
-        android:id="@+id/buttonSave"
+        android:id="@+id/buttonDelete"
         android:layout_width="100dp"
         android:layout_height="40dp"
         android:layout_marginEnd="40dp"

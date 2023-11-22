@@ -2,6 +2,7 @@ package com.example.euro_zhitlo.Apartment
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,9 +23,12 @@ import com.example.euro_zhitlo.Chat.Chat
 import com.example.euro_zhitlo.R
 import com.google.firebase.auth.FirebaseAuth
 
-class ChatAdapter(private val context: Context, private val chats: List<Chat>) : RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
+class ChatAdapter(private val context: Context, private var chats: List<Chat>) : RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
 
+    private var Chats: List<Chat> = chats
     private var itemClickListener: OnItemClickListener? = null
+    private val mAuth = FirebaseAuth.getInstance()
+    private val user = mAuth.currentUser
 
     interface OnItemClickListener {
         fun onItemClick(chat: Chat)
@@ -36,13 +40,12 @@ class ChatAdapter(private val context: Context, private val chats: List<Chat>) :
     }
 
     override fun getItemCount(): Int {
-        return chats.size
+        return Chats.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val chat = chats[position]
-        val mAuth = FirebaseAuth.getInstance()
-        val user = mAuth.currentUser
+        val chat = Chats[position]
+
 
         holder.itemView.setOnClickListener {
             itemClickListener?.onItemClick(chat)
@@ -72,6 +75,53 @@ class ChatAdapter(private val context: Context, private val chats: List<Chat>) :
                 }
             }
         }
+    }
+
+    fun filterChats(query: String) {
+        val filteredChats = mutableListOf<Chat>()
+
+        for (chat in chats) {
+            // Отримуємо nickname користувача залежно від його типу
+            val userId = if (getCurrentUserType() == "landlord") chat.refugee_uid else chat.landlord_uid
+
+            User.getUserByUid(userId) { user ->
+                val nickname = user?.nickname ?: ""
+
+                // Фільтруємо за nickname
+                if (nickname.contains(query, ignoreCase = true)) {
+                    filteredChats.add(chat)
+                }
+
+                // Якщо це останній чат, оновлюємо дані у RecyclerView
+                if (chat == chats.last()) {
+                    filteredChats(filteredChats)
+                }
+            }
+        }
+    }
+
+    private fun getCurrentUserType(): String {
+        var type = ""
+        user?.let {
+            User.getUserByUid(it.uid){currentUser->
+                if (currentUser != null) {
+                    if(currentUser.type == "landlord") type = "landlord"
+                    else{type = "refugee"}
+                }
+            }
+        }
+        return type
+    }
+
+    fun filteredChats(filteredChats: List<Chat>) {
+        Chats = filteredChats
+        notifyDataSetChanged()
+    }
+
+
+    fun setChats(newChats: List<Chat>) {
+        chats = newChats
+        filterChats("") // При зміні чатів також фільтруємо за порожнім рядком, щоб показати весь список
     }
 
     private fun loadAndDisplayImage(imageView: ImageView, imageUrl: String?) {
@@ -116,8 +166,6 @@ class ChatAdapter(private val context: Context, private val chats: List<Chat>) :
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.imageView1)
         val nickname: TextView = itemView.findViewById(R.id.textView_nickname)
-        val message: TextView = itemView.findViewById(R.id.textView_message)
-        val time: TextView = itemView.findViewById(R.id.textView_timeMessage)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
@@ -128,5 +176,6 @@ class ChatAdapter(private val context: Context, private val chats: List<Chat>) :
         return DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build()
     }
 }
+
 
 

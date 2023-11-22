@@ -43,12 +43,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:fontFamily="@font/sfu_black"
         android:text="Title"
         android:textSize="14dp"
         app:layout_constraintStart_toStartOf="@+id/editTextTitle"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView12" />
 
     <TextView
         android:id="@+id/textView17"
@@ -103,7 +103,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/sfu_bold"
-        android:text="Add apartment"
+        android:text="Edit apartment"
         android:textColor="@color/white"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView_back"
@@ -123,8 +123,8 @@
 
     <EditText
         android:id="@+id/editTextTitle"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
+        android:layout_width="360dp"
+        android:layout_height="40dp"
         android:background="@drawable/rectangle_white_search"
         android:drawableStart="@drawable/home_icon3"
         android:drawablePadding="10dp"
@@ -140,8 +140,8 @@
 
     <EditText
         android:id="@+id/editTextPrice"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
+        android:layout_width="360dp"
+        android:layout_height="40dp"
         android:background="@drawable/rectangle_white_search"
         android:drawableStart="@drawable/price_icon"
         android:drawablePadding="10dp"
@@ -156,43 +156,44 @@
 
     <AutoCompleteTextView
         android:id="@+id/autoCompleteTextView"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
+        android:layout_width="180dp"
+        android:layout_height="40dp"
         android:background="@drawable/rectangle_white_search"
+        android:completionThreshold="1"
         android:drawableStart="@drawable/location_icon"
         android:drawablePadding="10dp"
         android:ems="10"
-        android:completionThreshold="1"
         android:fontFamily="@font/sfu_medium"
         android:hint="Choose the country..."
         android:inputType="text"
         android:padding="10dp"
-        android:textSize="15dp"
+        android:textSize="12dp"
         app:layout_constraintStart_toStartOf="@+id/editTextPrice"
         app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
     <AutoCompleteTextView
         android:id="@+id/autoCompleteTextView2"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_width="170dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
         android:background="@drawable/rectangle_white_search"
+        android:completionThreshold="1"
         android:drawableStart="@drawable/location_icon"
         android:drawablePadding="10dp"
         android:ems="10"
-        android:completionThreshold="1"
         android:fontFamily="@font/sfu_medium"
         android:hint="Choose the city..."
         android:inputType="text"
         android:padding="10dp"
-        android:textSize="15dp"
-        app:layout_constraintStart_toStartOf="@+id/editTextPrice"
-        app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextView" />
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/autoCompleteTextView"
+        app:layout_constraintStart_toEndOf="@+id/autoCompleteTextView"
+        app:layout_constraintTop_toTopOf="@+id/autoCompleteTextView" />
 
     <EditText
         android:id="@+id/editTextDescription"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
+        android:layout_width="360dp"
+        android:layout_height="40dp"
         android:background="@drawable/rectangle_white_search"
         android:drawableStart="@drawable/description_icon"
         android:drawablePadding="10dp"
@@ -207,8 +208,8 @@
 
     <EditText
         android:id="@+id/editTextFacilities"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
+        android:layout_width="360dp"
+        android:layout_height="40dp"
         android:background="@drawable/rectangle_white_search"
         android:drawableStart="@drawable/done_icon"
         android:drawablePadding="10dp"
@@ -221,18 +222,61 @@
         app:layout_constraintStart_toStartOf="@+id/editTextDescription"
         app:layout_constraintTop_toBottomOf="@+id/textView21" />
 
+    <ImageView
+        android:id="@+id/imageViewDelete"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/delete_icon"
+        android:fontFamily="@font/sfu_medium"
+        android:padding="10dp"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonSave"
+        app:layout_constraintEnd_toStartOf="@+id/buttonSave"
+        app:layout_constraintTop_toTopOf="@+id/buttonSave" />
+
     <Button
-        android:id="@+id/buttonAdd"
+        android:id="@+id/buttonSave"
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/rectangle_purple2"
-        android:text="Add poster"
-        android:textSize="12dp"
         android:fontFamily="@font/sfu_medium"
         android:padding="10dp"
+        android:text="Save poster"
+        android:textSize="12dp"
         app:layout_constraintEnd_toEndOf="@+id/editTextFacilities"
         app:layout_constraintTop_toBottomOf="@+id/editTextFacilities" />
 
+    <ImageView
+        android:id="@+id/imageView12"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView15"
+        app:srcCompat="@drawable/image_apartment" />
+
+    <ImageView
+        android:id="@+id/imageView13"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView12"
+        app:layout_constraintEnd_toEndOf="@+id/imageView12"
+        app:srcCompat="@drawable/add_icon" />
+
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="120dp"
+        android:layout_height="30dp"
+        android:fontFamily="@font/sfu_black"
+        android:text="Booked"
+        android:textColor="@color/black"
+        android:textSize="13dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewDelete"
+        app:layout_constraintStart_toStartOf="@+id/editTextFacilities"
+        app:layout_constraintTop_toTopOf="@+id/imageViewDelete" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

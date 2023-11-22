@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -36,29 +37,29 @@
         app:layout_constraintTop_toTopOf="@+id/imageView1"
         app:srcCompat="@drawable/back_icon" />
 
+
     <TextView
         android:id="@+id/textView_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
         android:layout_marginTop="40dp"
         android:fontFamily="@font/sfu_bold"
         android:text=""
         android:textColor="@color/black"
         android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView2" />
 
     <TextView
         android:id="@+id/textView_location"
-        android:layout_width="wrap_content"
+        android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:fontFamily="@font/sfu_bold"
         android:text=""
         android:textColor="@android:color/darker_gray"
         android:textSize="12dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
         app:layout_constraintStart_toEndOf="@+id/imageView4"
         app:layout_constraintTop_toTopOf="@+id/imageView4" />
 
@@ -66,7 +67,7 @@
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/sfu_bold"
         android:text="Price: "
@@ -103,7 +104,7 @@
         android:id="@+id/imageView4"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="@+id/imageView2"
         app:layout_constraintTop_toBottomOf="@+id/textView_price"
@@ -113,7 +114,7 @@
         android:id="@+id/imageView_facilietie1"
         android:layout_width="15dp"
         android:layout_height="15dp"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="5dp"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="@+id/imageView2"
@@ -124,7 +125,7 @@
         android:id="@+id/imageView_facilietie2"
         android:layout_width="15dp"
         android:layout_height="15dp"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="5dp"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="@+id/imageView2"
@@ -194,11 +195,11 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
-        android:fontFamily="@font/sfu_regular"
-        android:text="View landlord's profile"
-        android:padding="10dp"
+        android:layout_marginEnd="20dp"
         android:background="@drawable/rectangle_white_search"
+        android:fontFamily="@font/sfu_regular"
+        android:padding="10dp"
+        android:text="View landlord's profile"
         android:textColor="@color/black"
         android:textSize="12dp"
         app:layout_constraintBottom_toBottomOf="@+id/textView3"
@@ -209,8 +210,8 @@
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
         android:fontFamily="@font/sfu_bold"
         android:text="Description"
         android:textColor="@color/black"
@@ -222,40 +223,51 @@
         android:id="@+id/textView19"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/sfu_bold"
         android:text="Facilities"
         android:textColor="@color/black"
         android:textSize="14dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_description" />
+        app:layout_constraintTop_toBottomOf="@+id/scrollView" />
 
     <View
         android:id="@+id/view3"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="20dp"
         android:background="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-    <TextView
-        android:id="@+id/textView_description"
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="40dp"
-        android:fontFamily="@font/sfu_regular"
-        android:text=""
-        android:textSize="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:fillViewport="true"
+        app:layout_constraintEnd_toEndOf="@+id/view3"
+        app:layout_constraintStart_toStartOf="@+id/textView5"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        tools:ignore="MissingConstraints"> <!-- Дозволяє ScrollView використовувати всю висоту екрану, якщо контент менший -->
+
+        <TextView
+            android:id="@+id/textView_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sfu_regular"
+            android:maxHeight="50dp"
+            android:maxLines="3"
+            android:text=""
+            android:textSize="12dp" />
+
+    </ScrollView>
 
     <TextView
         android:id="@+id/textView_facilitie1"
@@ -316,6 +328,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_facilitie3" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Мої оголошення"
+    <item android:title="My posts"
         android:id="@+id/myposts"
         android:icon="@drawable/home_icon2"
         />
 
-    <item android:title="Повідомлення"
+    <item android:title="Chats"
         android:id="@+id/message"
         android:icon="@drawable/message_icon"/>
 
-    <item android:title="Профіль"
+    <item android:title="Profile"
         android:id="@+id/profile"
         android:icon="@drawable/profile_icon2"/>
 

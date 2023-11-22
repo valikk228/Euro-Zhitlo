@@ -4,17 +4,13 @@ import Apartment
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.view.View.GONE
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
+import android.view.View.INVISIBLE
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import com.example.euro_zhitlo.Account.ProfileActivity
 import com.example.euro_zhitlo.Account.User
 import com.example.euro_zhitlo.Chat.Chat
 import com.example.euro_zhitlo.Chat.ChatActivity
@@ -24,7 +20,6 @@ import com.example.euro_zhitlo.Location.GeographyApiHandler
 import com.example.euro_zhitlo.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
-import com.squareup.picasso.Picasso
 
 class ApartmentActivity: AppCompatActivity() {
 
@@ -32,6 +27,8 @@ class ApartmentActivity: AppCompatActivity() {
     val user = mAuth.currentUser
     val userId = user?.uid
     private val geographyApiHandler = GeographyApiHandler()
+    private var apartment = Apartment()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +40,7 @@ class ApartmentActivity: AppCompatActivity() {
         }
 
         val extras = intent.extras
-        var apartment = Apartment()
+
         if (extras != null) {
             apartment = extras.getParcelable<Apartment>("apartment")!!
         }
@@ -54,6 +51,18 @@ class ApartmentActivity: AppCompatActivity() {
         var extraCountry = ""
         var extraCity = City("",0,0.0,0.0)
         val openMap:TextView = findViewById(R.id.textView3)
+        val openLandlord:TextView = findViewById(R.id.textView4)
+
+        openLandlord.setOnClickListener(){
+            if (extras != null) {
+                val intent = Intent(this@ApartmentActivity, ProfileActivity::class.java)
+                User.getUserByUid(apartment.uid_poster){landlord->
+                    intent.putExtra("landlord",landlord)
+                    startActivity(intent)
+                }
+            }
+        }
+
 
         openMap.setOnClickListener(){
             geographyApiHandler.getAllEuropeanCountries { result ->
@@ -120,25 +129,34 @@ class ApartmentActivity: AppCompatActivity() {
                         book.setOnClickListener(){
                             val chat = Chat()
                             if (apartment != null) {
-                                chat.landlord_uid = apartment.uid
+                                chat.landlord_uid = apartment.uid_poster
                             }
                             chat.refugee_uid = userId
                             chat.saveChatWithCheck(chat.refugee_uid,chat.landlord_uid)
                             if (apartment != null) {
-                                User.getUserByUid(apartment.uid){landlord->
+                                User.getUserByUid(apartment.uid_poster){landlord->
                                     val intent = Intent(this@ApartmentActivity, ChatActivity::class.java)
                                     intent.putExtra("user", landlord)
                                     startActivity(intent)
+                                    finish()
                                 }
                             }
                         }
                     }
+                    else if(userr.type == "landlord")
+                    {
+                        book.setText("Edit Post")
+                        book.setOnClickListener()
+                        {
+                            val intent = Intent(this@ApartmentActivity, EditApartmentActivity::class.java)
+                            intent.putExtra("apartment", apartment)
+                            startActivity(intent)
+                            finish()
+                        }
+                    }
+                    }
                 }
             }
-        }
-        else{
-            book.setText("Edit post")
-        }
 
         val title: TextView = findViewById(R.id.textView_title)
         val price: TextView = findViewById(R.id.textView_price)
@@ -177,32 +195,7 @@ class ApartmentActivity: AppCompatActivity() {
                 }
             }
 
-            // Створення CircularProgressDrawable
-            val circularProgressDrawable = CircularProgressDrawable(this)
-            circularProgressDrawable.strokeWidth = 10f
-            circularProgressDrawable.centerRadius = 50f
-            circularProgressDrawable.start()
-
-            image.setImageDrawable(circularProgressDrawable)
-
-            apartment.getBitmapFromFirebaseStorage { bitmap ->
-                Picasso.get()
-                    .load(apartment.image)
-                    .placeholder(circularProgressDrawable)
-                    .into(image, object : com.squareup.picasso.Callback {
-                        override fun onSuccess() {
-                            // Викликається, коли завантаження успішне
-                            circularProgressDrawable.stop()
-                            circularProgressDrawable.alpha = 0
-                        }
-
-                        override fun onError(e: Exception?) {
-                            // Викликається в разі помилки завантаження
-                            circularProgressDrawable.stop()
-                            circularProgressDrawable.alpha = 0
-                        }
-                    })
-            }
+            apartment.updateApartmentImage(mAuth,image,this)
 
         }
     }

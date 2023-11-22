@@ -18,22 +18,18 @@ import java.util.UUID
 
 @Keep
 @Parcelize
-public class ApartmentData : Parcelable {
+class ApartmentData : Parcelable {
     private val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child("apartments")
 
     // Завантаження зображення у Firebase Storage та збереження даних в Firebase Realtime Database
-    fun uploadData(uid:String,imageUrl:String, title: String, price: Int, country: String,city: String, access: Boolean, description: String, facilities: List<String>) {
+    fun uploadData(uid_poster:String,imageUrl:String, title: String, price: Int, country: String,city: String, access: Boolean, description: String, facilities: List<String>) {
+            // Використайте push(), щоб отримати унікальний uid
+            val apartmentRef = databaseReference.push()
 
-
-                // Створити об'єкт ApartmentData з URL зображення та іншими даними
-                val apartmentData = Apartment(uid,imageUrl, title, price, country, city, access, description, facilities)
-
-                // Зберегти дані в Firebase Realtime Database
-                val key = databaseReference.push().key
-                if (key != null) {
-                    databaseReference.child(key).setValue(apartmentData)
-                }
-
+            // Встановіть значення об'єкта Apartment для нового uid
+            val uid = apartmentRef.key.toString()
+            val apartmentData = Apartment(uid,uid_poster,imageUrl, title, price, country, city, access, description, facilities)
+            apartmentRef.setValue(apartmentData)
     }
 
 
@@ -58,16 +54,14 @@ public class ApartmentData : Parcelable {
         })
     }
 
-    fun readApartmentsLandlordData(completion: (List<Apartment>) -> Unit) {
+    fun readApartmentsLandlordData(uid: String,completion: (List<Apartment>) -> Unit) {
         databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val apartmentsList = ArrayList<Apartment>()
-                val currentUser = FirebaseAuth.getInstance().currentUser
-                val uid = currentUser?.uid
 
                 for (apartmentSnapshot in dataSnapshot.children) {
                     val apartmentData = apartmentSnapshot.getValue(Apartment::class.java)
-                    if (apartmentData != null && apartmentData.uid.equals(uid)) {
+                    if (apartmentData != null && apartmentData.uid_poster.equals(uid)) {
                         apartmentsList.add(apartmentData)
                     }
                 }

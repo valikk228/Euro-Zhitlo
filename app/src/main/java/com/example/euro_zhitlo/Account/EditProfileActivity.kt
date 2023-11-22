@@ -34,7 +34,7 @@ class EditProfileActivity : AppCompatActivity(){
         val phone: EditText= findViewById(R.id.editTextPhone)
         image = findViewById(R.id.imageView)
 
-        val save:Button = findViewById(R.id.buttonSave)
+        val save:Button = findViewById(R.id.buttonDelete)
         val back:ImageView = findViewById(R.id.imageView_back)
         val editPhoto:Button = findViewById(R.id.buttonEditPhoto)
 
@@ -49,7 +49,9 @@ class EditProfileActivity : AppCompatActivity(){
                     location.setText(user.location)
                     phone.setText(user.phone)
                     if(newImageUrl == "")newImageUrl = user.image
-                    User.updateProfileImage(mAuth,image,newImageUrl,this)
+                    if(newImageUrl != "") {
+                        User.updateProfileImage(mAuth, image, newImageUrl, this)
+                    }
 
                     save.setOnClickListener(){
                         user.nickname = nickname.text.toString()
@@ -126,7 +128,9 @@ class EditProfileActivity : AppCompatActivity(){
                             User.getUserByUid(it.uid) { user ->
                                 // Видаліть попередню фотографію з Firebase Storage
                                 if (user != null) {
-                                    deleteImageFromStorage(user.image)
+                                    if(user.image != "") {
+                                        deleteImageFromStorage(user.image)
+                                    }
                                     // Оновіть поле image в класі User з новим посиланням на фотографію
                                     user.image = newImageUrl
                                     user.saveToDatabase()
@@ -134,7 +138,9 @@ class EditProfileActivity : AppCompatActivity(){
                             }
                         }
 
-                        User.updateProfileImage(mAuth,image,newImageUrl,this)
+                        if(newImageUrl != "") {
+                            User.updateProfileImage(mAuth, image, newImageUrl, this)
+                        }
                     }
                 }.addOnFailureListener { exception ->
                     // Обробити помилку завантаження зображення

@@ -135,9 +135,9 @@ class RefugeeMainActivity : AppCompatActivity() {
                 var filterApartments = ArrayList<Apartment>()
                 val countryName: AutoCompleteTextView = findViewById(R.id.autoCompleteTextView)
                 val cityName: AutoCompleteTextView = findViewById(R.id.autoCompleteTextView2)
-
-                cancel.setOnClickListener(){
-                    SetRecyclerView(cancel,search,recyclerView)
+                
+                cancel.setOnClickListener() {
+                    SetRecyclerView(cancel, search, recyclerView)
                     countries.setText("")
                     cities.setText("")
                 }
@@ -158,7 +158,8 @@ class RefugeeMainActivity : AppCompatActivity() {
                 adapter = ApartmentAdapter(this, filterApartments)
                 adapter.setOnItemClickListener(object : ApartmentAdapter.OnItemClickListener {
                     override fun onItemClick(apartment: Apartment) {
-                        val intent = Intent(this@RefugeeMainActivity, ApartmentActivity::class.java)
+                        val intent =
+                            Intent(this@RefugeeMainActivity, ApartmentActivity::class.java)
                         val extras = Bundle()
                         extras.putParcelable("apartment", apartment)
                         intent.putExtras(extras)
